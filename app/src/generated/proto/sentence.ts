@@ -17,6 +17,7 @@ export interface Sentence {
   text: string;
   definition: string;
   language: Language;
+  explanation: string;
   isBookmarked: boolean;
   createTime: Date | undefined;
   updateTime: Date | undefined;
@@ -33,6 +34,7 @@ function createBaseSentence(): Sentence {
     text: "",
     definition: "",
     language: 0,
+    explanation: "",
     isBookmarked: false,
     createTime: undefined,
     updateTime: undefined,
@@ -56,19 +58,22 @@ export const Sentence: MessageFns<Sentence> = {
     if (message.language !== 0) {
       writer.uint32(32).int32(message.language);
     }
+    if (message.explanation !== "") {
+      writer.uint32(42).string(message.explanation);
+    }
     if (message.isBookmarked !== false) {
-      writer.uint32(40).bool(message.isBookmarked);
+      writer.uint32(48).bool(message.isBookmarked);
     }
     if (message.createTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.createTime),
-        writer.uint32(50).fork(),
+        writer.uint32(58).fork(),
       ).join();
     }
     if (message.updateTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.updateTime),
-        writer.uint32(58).fork(),
+        writer.uint32(66).fork(),
       ).join();
     }
     return writer;
@@ -115,15 +120,23 @@ export const Sentence: MessageFns<Sentence> = {
           continue;
         }
         case 5: {
-          if (tag !== 40) {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.explanation = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
             break;
           }
 
           message.isBookmarked = reader.bool();
           continue;
         }
-        case 6: {
-          if (tag !== 50) {
+        case 7: {
+          if (tag !== 58) {
             break;
           }
 
@@ -132,8 +145,8 @@ export const Sentence: MessageFns<Sentence> = {
           );
           continue;
         }
-        case 7: {
-          if (tag !== 58) {
+        case 8: {
+          if (tag !== 66) {
             break;
           }
 
@@ -159,6 +172,9 @@ export const Sentence: MessageFns<Sentence> = {
         ? globalThis.String(object.definition)
         : "",
       language: isSet(object.language) ? languageFromJSON(object.language) : 0,
+      explanation: isSet(object.explanation)
+        ? globalThis.String(object.explanation)
+        : "",
       isBookmarked: isSet(object.isBookmarked)
         ? globalThis.Boolean(object.isBookmarked)
         : isSet(object.is_bookmarked)
@@ -191,6 +207,9 @@ export const Sentence: MessageFns<Sentence> = {
     if (message.language !== 0) {
       obj.language = languageToJSON(message.language);
     }
+    if (message.explanation !== "") {
+      obj.explanation = message.explanation;
+    }
     if (message.isBookmarked !== false) {
       obj.isBookmarked = message.isBookmarked;
     }
@@ -212,6 +231,7 @@ export const Sentence: MessageFns<Sentence> = {
     message.text = object.text ?? "";
     message.definition = object.definition ?? "";
     message.language = object.language ?? 0;
+    message.explanation = object.explanation ?? "";
     message.isBookmarked = object.isBookmarked ?? false;
     message.createTime = object.createTime ?? undefined;
     message.updateTime = object.updateTime ?? undefined;

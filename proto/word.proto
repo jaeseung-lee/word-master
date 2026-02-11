@@ -11,7 +11,8 @@ message Word {
   string definition = 3;
   language.Language language = 4;
   bool is_bookmarked = 5;
-  int32 sentence_id = 6;
-  google.protobuf.Timestamp create_time = 7;
-  google.protobuf.Timestamp update_time = 8;
+  string explanation = 6;
+  int32 sentence_id = 7;
+  google.protobuf.Timestamp create_time = 8;
+  google.protobuf.Timestamp update_time = 9;
 }

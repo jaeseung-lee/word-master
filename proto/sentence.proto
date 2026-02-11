@@ -10,10 +10,11 @@ message Sentence {
   int32 id = 1;
   string text = 2;
   string definition = 3;
-  language.Language language = 4;
-  bool is_bookmarked = 5;
-  google.protobuf.Timestamp create_time = 6;
-  google.protobuf.Timestamp update_time = 7;
+  language.Language language = 4;  
+  string explanation = 5;
+  bool is_bookmarked = 6;
+  google.protobuf.Timestamp create_time = 7;
+  google.protobuf.Timestamp update_time = 8;
 }
 
 message SentenceComposite {

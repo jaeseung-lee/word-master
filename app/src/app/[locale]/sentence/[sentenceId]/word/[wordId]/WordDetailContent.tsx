@@ -81,6 +81,20 @@ export default function WordDetailContent({
             </div>
           </>
         )}
+
+        {word.explanation && (
+          <>
+            <Separator.Root className="h-px bg-gray-04" />
+            <div className="flex flex-col gap-1">
+              <p className="text-xs font-medium text-gray-03">
+                {t("common.explanation")}
+              </p>
+              <p className="whitespace-pre-wrap text-sm text-gray-01">
+                {word.explanation}
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

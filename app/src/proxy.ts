@@ -30,6 +30,12 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
+  // 로그인된 유저가 루트에 접근 시 대시보드로 리다이렉트
+  const strippedPath = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
+  if (isAuthenticated && strippedPath === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   // 로그인된 유저가 로그인/회원가입 페이지에 접근 시 대시보드로 리다이렉트
   if (isAuthenticated && isPublicPath) {
     return NextResponse.redirect(new URL("/dashboard", request.url));

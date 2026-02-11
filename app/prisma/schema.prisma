@@ -35,8 +35,9 @@ model user {
 
 model sentence {
   id            Int      @id @default(autoincrement())
-  text          String   @db.Text
-  definition    String   @db.Text 
+  text          String   @db.Text @default("")
+  definition    String   @db.Text @default("")
+  explanation   String   @db.Text @default("")
   language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
   author_id       Int
@@ -55,9 +56,10 @@ model sentence {
 model word {
   id            Int      @id @default(autoincrement())
   text          String   @db.VarChar(255)
-  definition    String   @db.Text
+  definition    String   @db.Text @default("")
   language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
+  explanation   String   @db.Text @default("")
   author_id       Int
   author          user     @relation(fields: [author_id], references: [id])
 

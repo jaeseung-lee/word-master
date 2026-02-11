@@ -7,14 +7,43 @@ import { useTranslations } from "next-intl";
 
 export default function WordForm({
   initialText = "",
+  sentenceText,
   onSubmit,
 }: {
   initialText?: string;
+  sentenceText?: string;
   onSubmit: (text: string) => Promise<void>;
 }) {
   const t = useTranslations();
   const [text, setText] = useState(initialText);
   const [isPending, startTransition] = useTransition();
+
+  const tokens = sentenceText
+    ? sentenceText.split(/(\s+)/).filter(Boolean)
+    : [];
+
+  const toggleToken = (token: string) => {
+    const currentWords = text
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((w) => w.toLowerCase());
+    const normalized = token.toLowerCase();
+
+    if (currentWords.includes(normalized)) {
+      const updated = currentWords.filter((w) => w !== normalized).join(" ");
+      setText(updated);
+    } else {
+      setText(text ? `${text} ${token}` : token);
+    }
+  };
+
+  const isSelected = (token: string) => {
+    const currentWords = text
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((w) => w.toLowerCase());
+    return currentWords.includes(token.toLowerCase());
+  };
 
   return (
     <Form.Root
@@ -26,6 +55,33 @@ export default function WordForm({
         });
       }}
     >
+      {tokens.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium text-gray-01">
+            {t("word.pickFromSentence")}
+          </span>
+          <div className="flex flex-wrap gap-1.5 rounded-md border border-gray-04 bg-light-black p-3">
+            {tokens.map((token, idx) =>
+              /^\s+$/.test(token) ? null : (
+                <button
+                  key={idx}
+                  type="button"
+                  disabled={isPending}
+                  onClick={() => toggleToken(token)}
+                  className={`rounded-md px-2 py-1 text-sm transition-colors ${
+                    isSelected(token)
+                      ? "bg-primary text-black font-medium"
+                      : "bg-gray-04 text-gray-01 hover:bg-gray-03 hover:text-white"
+                  } disabled:opacity-50`}
+                >
+                  {token}
+                </button>
+              ),
+            )}
+          </div>
+        </div>
+      )}
+
       <Form.Field name="text" className="flex flex-col gap-1.5">
         <Form.Label className="text-sm font-medium text-gray-01">
           {t("word.text.title")}

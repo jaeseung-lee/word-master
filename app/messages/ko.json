@@ -25,7 +25,8 @@
     "aiHint": "AI가 자동으로 뜻과 언어를 분석합니다.",
     "uploadImage": "사진에서 문장 추출",
     "noDefinition": "뜻 없음",
-    "definition": "뜻"
+    "definition": "뜻",
+    "explanation": "해설"
   },
   "language": {
     "short": {
@@ -148,6 +149,8 @@
     "newTitle": "새 단어",
     "editTitle": "단어 수정",
     "addWord": "단어 추가",
-    "empty": "아직 단어가 없습니다."
+    "empty": "아직 단어가 없습니다.",
+    "pickFromSentence": "문장에서 단어 선택",
+    "newWithSentenceHint": "AI가 단어의 뜻을 분석하고, 예문 문장을 자동으로 생성합니다."
   }
 }

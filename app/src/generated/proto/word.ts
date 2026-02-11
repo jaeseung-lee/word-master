@@ -17,6 +17,7 @@ export interface Word {
   definition: string;
   language: Language;
   isBookmarked: boolean;
+  explanation: string;
   sentenceId: number;
   createTime: Date | undefined;
   updateTime: Date | undefined;
@@ -29,6 +30,7 @@ function createBaseWord(): Word {
     definition: "",
     language: 0,
     isBookmarked: false,
+    explanation: "",
     sentenceId: 0,
     createTime: undefined,
     updateTime: undefined,
@@ -55,19 +57,22 @@ export const Word: MessageFns<Word> = {
     if (message.isBookmarked !== false) {
       writer.uint32(40).bool(message.isBookmarked);
     }
+    if (message.explanation !== "") {
+      writer.uint32(50).string(message.explanation);
+    }
     if (message.sentenceId !== 0) {
-      writer.uint32(48).int32(message.sentenceId);
+      writer.uint32(56).int32(message.sentenceId);
     }
     if (message.createTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.createTime),
-        writer.uint32(58).fork(),
+        writer.uint32(66).fork(),
       ).join();
     }
     if (message.updateTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.updateTime),
-        writer.uint32(66).fork(),
+        writer.uint32(74).fork(),
       ).join();
     }
     return writer;
@@ -122,15 +127,23 @@ export const Word: MessageFns<Word> = {
           continue;
         }
         case 6: {
-          if (tag !== 48) {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.explanation = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
             break;
           }
 
           message.sentenceId = reader.int32();
           continue;
         }
-        case 7: {
-          if (tag !== 58) {
+        case 8: {
+          if (tag !== 66) {
             break;
           }
 
@@ -139,8 +152,8 @@ export const Word: MessageFns<Word> = {
           );
           continue;
         }
-        case 8: {
-          if (tag !== 66) {
+        case 9: {
+          if (tag !== 74) {
             break;
           }
 
@@ -171,6 +184,9 @@ export const Word: MessageFns<Word> = {
         : isSet(object.is_bookmarked)
           ? globalThis.Boolean(object.is_bookmarked)
           : false,
+      explanation: isSet(object.explanation)
+        ? globalThis.String(object.explanation)
+        : "",
       sentenceId: isSet(object.sentenceId)
         ? globalThis.Number(object.sentenceId)
         : isSet(object.sentence_id)
@@ -206,6 +222,9 @@ export const Word: MessageFns<Word> = {
     if (message.isBookmarked !== false) {
       obj.isBookmarked = message.isBookmarked;
     }
+    if (message.explanation !== "") {
+      obj.explanation = message.explanation;
+    }
     if (message.sentenceId !== 0) {
       obj.sentenceId = Math.round(message.sentenceId);
     }
@@ -228,6 +247,7 @@ export const Word: MessageFns<Word> = {
     message.definition = object.definition ?? "";
     message.language = object.language ?? 0;
     message.isBookmarked = object.isBookmarked ?? false;
+    message.explanation = object.explanation ?? "";
     message.sentenceId = object.sentenceId ?? 0;
     message.createTime = object.createTime ?? undefined;
     message.updateTime = object.updateTime ?? undefined;

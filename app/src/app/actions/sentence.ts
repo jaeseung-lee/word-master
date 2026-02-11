@@ -13,12 +13,13 @@ import convert from "heic-convert";
 export async function createSentenceAction(text: string) {
   const session = await requireAuth();
   const apiKey = await getUserApiKey(session.userId);
-  const { definition, language } = await analyzeText(apiKey, text);
+  const { definition, explanation, language } = await analyzeText(apiKey, text);
 
   await createSentence({
     data: {
       text,
       definition,
+      explanation,
       language: language as any,
       author: { connect: { id: session.userId } },
     },
@@ -30,13 +31,14 @@ export async function createSentenceAction(text: string) {
 export async function updateSentenceAction(id: number, text: string) {
   const session = await requireAuth();
   const apiKey = await getUserApiKey(session.userId);
-  const { definition, language } = await analyzeText(apiKey, text);
+  const { definition, explanation, language } = await analyzeText(apiKey, text);
 
   await updateSentence({
     where: { id },
     data: {
       text,
       definition,
+      explanation,
       language: language as any,
     },
   });

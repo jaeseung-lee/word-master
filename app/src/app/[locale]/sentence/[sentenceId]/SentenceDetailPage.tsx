@@ -97,6 +97,20 @@ export default function SentenceDetailPage({
           )}
         </div>
 
+        {sentence.explanation && (
+          <>
+            <Separator.Root className="h-px bg-gray-04" />
+            <div className="flex flex-col gap-1">
+              <p className="text-xs font-medium text-gray-03">
+                {t("common.explanation")}
+              </p>
+              <p className="whitespace-pre-wrap text-sm text-gray-01">
+                {sentence.explanation}
+              </p>
+            </div>
+          </>
+        )}
+
         <Separator.Root className="h-px bg-gray-04" />
 
         <div className="flex flex-col gap-3">
@@ -168,6 +182,7 @@ export default function SentenceDetailPage({
                 {t("word.newTitle")}
               </h2>
               <WordForm
+                sentenceText={sentence.text}
                 onSubmit={async (text) => {
                   await createWordAction(text, sentence.id);
                   setIsWordFormOpen(false);

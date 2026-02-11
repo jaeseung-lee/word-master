@@ -6,7 +6,13 @@ import { Link, useRouter } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-export default function CreateWordForm({ sentenceId }: { sentenceId: number }) {
+export default function CreateWordForm({
+  sentenceId,
+  sentenceText,
+}: {
+  sentenceId: number;
+  sentenceText?: string;
+}) {
   const t = useTranslations();
   const router = useRouter();
 
@@ -21,6 +27,7 @@ export default function CreateWordForm({ sentenceId }: { sentenceId: number }) {
         </h1>
       </div>
       <WordForm
+        sentenceText={sentenceText}
         onSubmit={async (text) => {
           await createWordAction(text, sentenceId);
           router.push(`/sentence/${sentenceId}`);
