@@ -51,7 +51,7 @@ export default function SentenceDetailPage({
   return (
     <div className="flex w-full flex-col overflow-y-auto">
       <div className="sticky top-0 z-1 flex items-center gap-3 border-b border-gray-04 bg-black px-4 py-3">
-        <Link href="/">
+        <Link href="/dashboard">
           <ArrowLeft className="h-5 w-5 text-gray-02 hover:text-white" />
         </Link>
         <h1 className="flex-1 truncate text-lg font-semibold text-white">
@@ -65,7 +65,9 @@ export default function SentenceDetailPage({
             className="rounded-md p-1.5 text-gray-02 transition-colors hover:text-primary"
           >
             <Bookmark
-              className={`h-4 w-4 ${sentence.isBookmarked ? "fill-primary text-primary" : ""}`}
+              className={`h-4 w-4 ${
+                sentence.isBookmarked ? "fill-primary text-primary" : ""
+              }`}
             />
           </button>
           <button
