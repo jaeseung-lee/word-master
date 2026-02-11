@@ -8,12 +8,12 @@ import { redirect } from "@/i18n/routing";
 export async function loginAction(email: string, password: string) {
   const user = await getUserByEmail({ email });
   if (!user) {
-    throw new Error("error.auth.invalidCredentials");
+    return { error: "invalidCredentials" };
   }
 
   const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) {
-    throw new Error("error.auth.invalidCredentials");
+    return { error: "invalidCredentials" };
   }
 
   await createSession({
@@ -33,7 +33,7 @@ export async function registerAction(
 ) {
   const existingUser = await getUserByEmail({ email });
   if (existingUser) {
-    throw new Error("error.auth.emailAlreadyExists");
+    return { error: "emailAlreadyExists" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);

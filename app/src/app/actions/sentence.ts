@@ -8,6 +8,7 @@ import {
 import { analyzeText, extractTextFromImage } from "@/lib/openai";
 import { requireAuth, getUserApiKey } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import convert from "heic-convert";
 
 export async function createSentenceAction(text: string) {
   const session = await requireAuth();
@@ -51,11 +52,34 @@ export async function deleteSentenceAction(id: number) {
   revalidatePath("/");
 }
 
+const HEIC_TYPES = ["image/heic", "image/heif"];
+
 export async function extractTextFromImageAction(
-  base64Image: string,
-  mimeType: string,
+  formData: FormData,
 ): Promise<string> {
   const session = await requireAuth();
   const apiKey = await getUserApiKey(session.userId);
+
+  const file = formData.get("image") as File;
+  const arrayBuffer = await file.arrayBuffer();
+  const rawBuffer = Buffer.from(arrayBuffer);
+  let mimeType = file.type;
+
+  const isHeic =
+    HEIC_TYPES.includes(file.type) ||
+    file.name.toLowerCase().endsWith(".heic") ||
+    file.name.toLowerCase().endsWith(".heif");
+
+  let finalBuffer: Buffer = rawBuffer;
+  if (isHeic) {
+    const result = await convert({
+      buffer: rawBuffer,
+      format: "PNG",
+    });
+    finalBuffer = Buffer.from(result);
+    mimeType = "image/png";
+  }
+
+  const base64Image = finalBuffer.toString("base64");
   return extractTextFromImage(apiKey, base64Image, mimeType);
 }

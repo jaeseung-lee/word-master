@@ -28,9 +28,8 @@ export default function LoginForm() {
             e.preventDefault();
             setError("");
             startTransition(async () => {
-              try {
-                await loginAction(email, password);
-              } catch (err: any) {
+              const result = await loginAction(email, password);
+              if (result?.error) {
                 setError(t("auth.invalidCredentials"));
               }
             });

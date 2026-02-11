@@ -6,14 +6,13 @@ import { registerAction } from "@/app/actions/auth";
 import { Link } from "@/i18n/routing";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { User } from "@/generated/proto/user";
 
 export default function RegisterForm() {
   const t = useTranslations();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newUser, setNewUser] = useState<User>(User.create());
+
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [openAiApiKey, setOpenAiApiKey] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -33,20 +32,24 @@ export default function RegisterForm() {
             e.preventDefault();
             setError("");
 
-            if (password !== confirmPassword) {
+            if (newUser.password !== confirmPassword) {
               setError(t("auth.passwordMismatch"));
               return;
             }
 
-            if (password.length < 6) {
+            if (newUser.password.length < 6) {
               setError(t("auth.passwordTooShort"));
               return;
             }
 
             startTransition(async () => {
-              try {
-                await registerAction(name, email, password, openAiApiKey);
-              } catch (err: any) {
+              const result = await registerAction(
+                newUser.name,
+                newUser.email,
+                newUser.password,
+                newUser.openAiApiKey,
+              );
+              if (result?.error) {
                 setError(t("auth.emailAlreadyExists"));
               }
             });
@@ -65,8 +68,10 @@ export default function RegisterForm() {
             <Form.Control asChild>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={newUser.name}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, name: e.target.value })
+                }
                 required
                 disabled={isPending}
                 placeholder={t("auth.namePlaceholder")}
@@ -85,8 +90,10 @@ export default function RegisterForm() {
             <Form.Control asChild>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={newUser.email}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, email: e.target.value })
+                }
                 required
                 disabled={isPending}
                 placeholder={t("auth.emailPlaceholder")}
@@ -108,8 +115,10 @@ export default function RegisterForm() {
             <Form.Control asChild>
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={newUser.password}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, password: e.target.value })
+                }
                 required
                 disabled={isPending}
                 placeholder={t("auth.passwordPlaceholder")}
@@ -148,8 +157,10 @@ export default function RegisterForm() {
             <Form.Control asChild>
               <input
                 type="password"
-                value={openAiApiKey}
-                onChange={(e) => setOpenAiApiKey(e.target.value)}
+                value={newUser.openAiApiKey}
+                onChange={(e) =>
+                  setNewUser({ ...newUser, openAiApiKey: e.target.value })
+                }
                 required
                 disabled={isPending}
                 placeholder={t("auth.openAiApiKeyPlaceholder")}

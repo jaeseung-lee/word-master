@@ -31,14 +31,10 @@ export async function analyzeText(
 1. Detect its language (English, Korean, or Japanese).
 2. Provide a Korean translation/definition of the text.
 
-Respond in JSON only, with this exact format:
-{"definition": "<한국어 뜻/해석>", "language": "<LANGUAGE_ENGLISH|LANGUAGE_KOREAN|LANGUAGE_JAPANESE>"}
-
 Rules:
 - If the text is Korean, the definition should be a brief explanation of the meaning in Korean.
 - If the text is English or Japanese, the definition should be the Korean translation.
-- Keep the definition concise (1-2 sentences).
-- Do NOT include any markdown or extra text, only valid JSON.`,
+- Keep the definition concise (1-2 sentences).`,
       },
       {
         role: "user",
@@ -47,22 +43,40 @@ Rules:
     ],
     temperature: 0.3,
     max_tokens: 300,
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: "text_analysis",
+        strict: true,
+        schema: {
+          type: "object",
+          properties: {
+            definition: { type: "string" },
+            language: {
+              type: "string",
+              enum: [
+                "LANGUAGE_ENGLISH",
+                "LANGUAGE_KOREAN",
+                "LANGUAGE_JAPANESE",
+              ],
+            },
+          },
+          required: ["definition", "language"],
+          additionalProperties: false,
+        },
+      },
+    },
   });
 
-  const content = response.choices[0]?.message?.content?.trim() ?? "";
+  const parsed = JSON.parse(response.choices[0].message.content!) as {
+    definition: string;
+    language: "LANGUAGE_ENGLISH" | "LANGUAGE_KOREAN" | "LANGUAGE_JAPANESE";
+  };
 
-  try {
-    const parsed = JSON.parse(content);
-    return {
-      definition: parsed.definition ?? "",
-      language: parsed.language ?? "LANGUAGE_JAPANESE",
-    };
-  } catch {
-    return {
-      definition: "",
-      language: "LANGUAGE_JAPANESE",
-    };
-  }
+  return {
+    definition: parsed.definition,
+    language: parsed.language,
+  };
 }
 
 /**
@@ -82,7 +96,7 @@ export async function extractTextFromImage(
       {
         role: "system",
         content: `You are an OCR assistant. Extract ALL text/sentences visible in the image.
-Return ONLY the extracted text, one sentence per line.
+Return the extracted text, one sentence per line.
 Do NOT add any explanation, translation, or commentary.
 Preserve the original language of the text exactly as it appears.`,
       },
@@ -100,7 +114,26 @@ Preserve the original language of the text exactly as it appears.`,
     ],
     temperature: 0.1,
     max_tokens: 1000,
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: "ocr_result",
+        strict: true,
+        schema: {
+          type: "object",
+          properties: {
+            text: { type: "string" },
+          },
+          required: ["text"],
+          additionalProperties: false,
+        },
+      },
+    },
   });
 
-  return response.choices[0]?.message?.content?.trim() ?? "";
+  const parsed = JSON.parse(response.choices[0].message.content!) as {
+    text: string;
+  };
+
+  return parsed.text;
 }

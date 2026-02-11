@@ -23,18 +23,13 @@ export default function SentenceForm({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      const base64 = dataUrl.split(",")[1];
-      const mimeType = file.type;
+    const formData = new FormData();
+    formData.append("image", file);
 
-      startExtracting(async () => {
-        const extracted = await extractTextFromImageAction(base64, mimeType);
-        setText((prev) => (prev ? prev + "\n" + extracted : extracted));
-      });
-    };
-    reader.readAsDataURL(file);
+    startExtracting(async () => {
+      const extracted = await extractTextFromImageAction(formData);
+      setText((prev) => (prev ? prev + "\n" + extracted : extracted));
+    });
 
     // reset input so same file can be re-selected
     e.target.value = "";
