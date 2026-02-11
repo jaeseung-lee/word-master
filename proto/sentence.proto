@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "language.proto";
+import "word.proto";
+
+package sentence;
+
+message Sentence {
+  int32 id = 1;
+  string text = 2;
+  string definition = 3;
+  language.Language language = 4;
+  bool is_bookmarked = 5;
+  google.protobuf.Timestamp create_time = 6;
+  google.protobuf.Timestamp update_time = 7;
+}
+
+message SentenceComposite {
+  sentence.Sentence sentence = 1;
+  repeated word.Word word_list = 2;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+import "language.proto";
+
+package word;
+
+message Word {
+  int32 id = 1;
+  string text = 2;
+  string definition = 3;
+  language.Language language = 4;
+  bool is_bookmarked = 5;
+  int32 sentence_id = 6;
+  google.protobuf.Timestamp create_time = 7;
+  google.protobuf.Timestamp update_time = 8;
+}

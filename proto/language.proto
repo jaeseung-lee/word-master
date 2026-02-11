@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package language;
+
+enum Language {
+  LANGUAGE_UNSPECIFIED = 0;
+  LANGUAGE_ENGLISH = 1;
+  LANGUAGE_KOREAN = 2;
+  LANGUAGE_JAPANESE = 3;
+}

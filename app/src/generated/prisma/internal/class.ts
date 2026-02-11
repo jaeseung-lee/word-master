@@ -19,7 +19,7 @@ const config: runtime.GetPrismaClientConfig = {
   engineVersion: "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   activeProvider: "postgresql",
   inlineSchema:
-    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = "prisma-client"\n  output       = "../generated/prisma"\n  moduleFormat = "cjs"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nenum Language {\n  LANGUAGE_ENGLISH\n  LANGUAGE_KOREAN\n  LANGUAGE_JAPANESE\n}\n\nmodel sentence {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.Text\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  word_list word[]\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n\nmodel word {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.VarChar(255)\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  sentence_id   Int\n  sentence      sentence @relation(fields: [sentence_id], references: [id])\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n',
+    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nenum Language {\n  LANGUAGE_ENGLISH\n  LANGUAGE_KOREAN\n  LANGUAGE_JAPANESE\n}\n\nmodel sentence {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.Text\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  word_list word[]\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n\nmodel word {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.VarChar(255)\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  sentence_id   Int\n  sentence      sentence @relation(fields: [sentence_id], references: [id])\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n',
   runtimeDataModel: {
     models: {},
     enums: {},
@@ -41,11 +41,13 @@ async function decodeBase64AsWasm(
 
 config.compilerWasm = {
   getRuntime: async () =>
-    await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
+    await import(
+      "@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"
+    ),
 
   getQueryCompilerWasmModule: async () => {
     const { wasm } = await import(
-      "@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js"
+      "@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs"
     );
     return await decodeBase64AsWasm(wasm);
   },

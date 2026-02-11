@@ -6,8 +6,7 @@
 
 generator client {
   provider     = "prisma-client"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
+  output       = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,6 +14,7 @@ datasource db {
 }
 
 enum Language {
+  LANGUAGE_UNSPECIFIED
   LANGUAGE_ENGLISH
   LANGUAGE_KOREAN
   LANGUAGE_JAPANESE
