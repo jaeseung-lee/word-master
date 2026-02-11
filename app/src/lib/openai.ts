@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import type { ChatCompletionContentPart } from "openai/resources/chat/completions";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -54,4 +55,41 @@ Rules:
       language: "LANGUAGE_JAPANESE",
     };
   }
+}
+
+/**
+ * 이미지에서 문장(텍스트)을 추출합니다.
+ * base64 인코딩된 이미지를 받아 OpenAI Vision으로 OCR을 수행합니다.
+ */
+export async function extractTextFromImage(
+  base64Image: string,
+  mimeType: string,
+): Promise<string> {
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: `You are an OCR assistant. Extract ALL text/sentences visible in the image.
+Return ONLY the extracted text, one sentence per line.
+Do NOT add any explanation, translation, or commentary.
+Preserve the original language of the text exactly as it appears.`,
+      },
+      {
+        role: "user",
+        content: [
+          {
+            type: "image_url",
+            image_url: {
+              url: `data:${mimeType};base64,${base64Image}`,
+            },
+          },
+        ] as ChatCompletionContentPart[],
+      },
+    ],
+    temperature: 0.1,
+    max_tokens: 1000,
+  });
+
+  return response.choices[0]?.message?.content?.trim() ?? "";
 }

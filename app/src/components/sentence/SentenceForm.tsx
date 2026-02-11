@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Form } from "radix-ui";
-import { Loader2 } from "lucide-react";
+import { Loader2, ImagePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { extractTextFromImageAction } from "@/app/actions/sentence";
 
 export default function SentenceForm({
   initialText = "",
@@ -15,6 +16,31 @@ export default function SentenceForm({
   const t = useTranslations();
   const [text, setText] = useState(initialText);
   const [isPending, startTransition] = useTransition();
+  const [isExtracting, startExtracting] = useTransition();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const base64 = dataUrl.split(",")[1];
+      const mimeType = file.type;
+
+      startExtracting(async () => {
+        const extracted = await extractTextFromImageAction(base64, mimeType);
+        setText((prev) => (prev ? prev + "\n" + extracted : extracted));
+      });
+    };
+    reader.readAsDataURL(file);
+
+    // reset input so same file can be re-selected
+    e.target.value = "";
+  };
+
+  const isDisabled = isPending || isExtracting;
 
   return (
     <Form.Root
@@ -27,15 +53,37 @@ export default function SentenceForm({
       }}
     >
       <Form.Field name="text" className="flex flex-col gap-1.5">
-        <Form.Label className="text-sm font-medium text-gray-01">
-          {t("sentence.text.title")}
-        </Form.Label>
+        <div className="flex items-center justify-between">
+          <Form.Label className="text-sm font-medium text-gray-01">
+            {t("sentence.text.title")}
+          </Form.Label>
+          <button
+            type="button"
+            disabled={isDisabled}
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center gap-1.5 rounded-md border border-gray-04 px-2.5 py-1 text-xs text-gray-02 transition-colors hover:border-primary hover:text-primary disabled:opacity-50"
+          >
+            {isExtracting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <ImagePlus className="h-3.5 w-3.5" />
+            )}
+            {isExtracting ? t("common.extracting") : t("common.uploadImage")}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageUpload}
+          />
+        </div>
         <Form.Control asChild>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
-            disabled={isPending}
+            disabled={isDisabled}
             rows={3}
             placeholder={t("sentence.text.placeholder")}
             className="resize-none rounded-md border border-gray-04 bg-light-black px-3 py-2 text-sm text-white placeholder:text-gray-03 focus:border-primary focus:outline-none disabled:opacity-50"
@@ -50,7 +98,7 @@ export default function SentenceForm({
 
       <Form.Submit asChild>
         <button
-          disabled={isPending}
+          disabled={isDisabled}
           className="mt-1 flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? (

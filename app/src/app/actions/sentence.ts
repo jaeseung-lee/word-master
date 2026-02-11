@@ -5,7 +5,7 @@ import {
   updateSentence,
   deleteSentence,
 } from "@/db/service/sentence";
-import { analyzeText } from "@/lib/openai";
+import { analyzeText, extractTextFromImage } from "@/lib/openai";
 import { revalidatePath } from "next/cache";
 
 export async function createSentenceAction(text: string) {
@@ -42,4 +42,11 @@ export async function deleteSentenceAction(id: number) {
   await deleteSentence({ where: { id } });
 
   revalidatePath("/");
+}
+
+export async function extractTextFromImageAction(
+  base64Image: string,
+  mimeType: string,
+): Promise<string> {
+  return extractTextFromImage(base64Image, mimeType);
 }
