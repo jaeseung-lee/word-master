@@ -11,8 +11,11 @@
     "prepare": "cd .. && husky app/.husky"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
     "next": "16.1.6",
+    "next-intl": "^4.8.2",
     "prisma": "^7.3.0",
+    "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

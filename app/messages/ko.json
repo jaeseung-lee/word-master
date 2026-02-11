@@ -1,0 +1,68 @@
+{
+  "title": "워드마스터",
+  "metadata": {
+    "title": "워드마스터",
+    "description": "워드마스터는 외국어 학습을 위한 스마트 단어장 앱입니다.",
+    "authors": {
+      "name": "워드마스터",
+      "url": "https://wordmaster.com"
+    },
+    "siteName": "워드마스터",
+    "openGraph": {
+      "url": "https://wordmaster.com",
+      "title": "워드마스터",
+      "siteName": "워드마스터"
+    }
+  },
+  "description": "워드마스터는 외국어 학습을 위한 스마트 단어장 앱입니다.",
+  "sentence": {
+    "id": "ID",
+    "text": {
+      "title": "문장",
+      "description": "문장 원문"
+    },
+    "definition": {
+      "title": "문장 뜻",
+      "description": "AI를 이용하여 번역되었습니다. 번역에 오류가 있을 수 있습니다."
+    },
+    "language": {
+      "title": "언어",
+      "description": "언어",
+      "value": {
+        "LANGUAGE_ENGLISH": "영어",
+        "LANGUAGE_KOREAN": "한국어",
+        "LANGUAGE_JAPANESE": "일본어"
+      }
+    },
+    "is_bookmarked": {
+      "title": "즐겨찾기"
+    },
+    "create_time": "생성 시간",
+    "update_time": "수정 시간"
+  },
+  "word": {
+    "id": "ID",
+    "text": {
+      "title": "단어",
+      "description": "단어 원문"
+    },
+    "definition": {
+      "title": "단어 뜻",
+      "description": "AI를 이용하여 번역되었습니다. 번역에 오류가 있을 수 있습니다."
+    },
+    "language": {
+      "title": "언어",
+      "description": "언어",
+      "value": {
+        "LANGUAGE_ENGLISH": "영어",
+        "LANGUAGE_KOREAN": "한국어",
+        "LANGUAGE_JAPANESE": "일본어"
+      }
+    },
+    "is_bookmarked": {
+      "title": "즐겨찾기"
+    },
+    "create_time": "생성 시간",
+    "update_time": "수정 시간"
+  }
+}
