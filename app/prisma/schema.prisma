@@ -25,6 +25,7 @@ model user {
   name          String   @db.VarChar(255)
   email         String   @db.VarChar(255)
   password      String   @db.VarChar(255)
+  open_ai_api_key String   @db.VarChar(255) @default("")
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
 

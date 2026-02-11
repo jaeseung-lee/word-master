@@ -39,6 +39,7 @@ export type UserMinAggregateOutputType = {
   name: string | null;
   email: string | null;
   password: string | null;
+  open_ai_api_key: string | null;
   create_time: Date | null;
   update_time: Date | null;
 };
@@ -48,6 +49,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null;
   email: string | null;
   password: string | null;
+  open_ai_api_key: string | null;
   create_time: Date | null;
   update_time: Date | null;
 };
@@ -57,6 +59,7 @@ export type UserCountAggregateOutputType = {
   name: number;
   email: number;
   password: number;
+  open_ai_api_key: number;
   create_time: number;
   update_time: number;
   _all: number;
@@ -75,6 +78,7 @@ export type UserMinAggregateInputType = {
   name?: true;
   email?: true;
   password?: true;
+  open_ai_api_key?: true;
   create_time?: true;
   update_time?: true;
 };
@@ -84,6 +88,7 @@ export type UserMaxAggregateInputType = {
   name?: true;
   email?: true;
   password?: true;
+  open_ai_api_key?: true;
   create_time?: true;
   update_time?: true;
 };
@@ -93,6 +98,7 @@ export type UserCountAggregateInputType = {
   name?: true;
   email?: true;
   password?: true;
+  open_ai_api_key?: true;
   create_time?: true;
   update_time?: true;
   _all?: true;
@@ -196,6 +202,7 @@ export type UserGroupByOutputType = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key: string;
   create_time: Date;
   update_time: Date;
   _count: UserCountAggregateOutputType | null;
@@ -225,6 +232,7 @@ export type userWhereInput = {
   name?: Prisma.StringFilter<"user"> | string;
   email?: Prisma.StringFilter<"user"> | string;
   password?: Prisma.StringFilter<"user"> | string;
+  open_ai_api_key?: Prisma.StringFilter<"user"> | string;
   create_time?: Prisma.DateTimeFilter<"user"> | Date | string;
   update_time?: Prisma.DateTimeFilter<"user"> | Date | string;
   sentence_list?: Prisma.SentenceListRelationFilter;
@@ -236,6 +244,7 @@ export type userOrderByWithRelationInput = {
   name?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   password?: Prisma.SortOrder;
+  open_ai_api_key?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
   sentence_list?: Prisma.sentenceOrderByRelationAggregateInput;
@@ -251,6 +260,7 @@ export type userWhereUniqueInput = Prisma.AtLeast<
     name?: Prisma.StringFilter<"user"> | string;
     email?: Prisma.StringFilter<"user"> | string;
     password?: Prisma.StringFilter<"user"> | string;
+    open_ai_api_key?: Prisma.StringFilter<"user"> | string;
     create_time?: Prisma.DateTimeFilter<"user"> | Date | string;
     update_time?: Prisma.DateTimeFilter<"user"> | Date | string;
     sentence_list?: Prisma.SentenceListRelationFilter;
@@ -264,6 +274,7 @@ export type userOrderByWithAggregationInput = {
   name?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   password?: Prisma.SortOrder;
+  open_ai_api_key?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
   _count?: Prisma.userCountOrderByAggregateInput;
@@ -285,6 +296,7 @@ export type userScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"user"> | string;
   email?: Prisma.StringWithAggregatesFilter<"user"> | string;
   password?: Prisma.StringWithAggregatesFilter<"user"> | string;
+  open_ai_api_key?: Prisma.StringWithAggregatesFilter<"user"> | string;
   create_time?: Prisma.DateTimeWithAggregatesFilter<"user"> | Date | string;
   update_time?: Prisma.DateTimeWithAggregatesFilter<"user"> | Date | string;
 };
@@ -293,6 +305,7 @@ export type userCreateInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   sentence_list?: Prisma.sentenceCreateNestedManyWithoutAuthorInput;
@@ -304,6 +317,7 @@ export type userUncheckedCreateInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   sentence_list?: Prisma.sentenceUncheckedCreateNestedManyWithoutAuthorInput;
@@ -314,6 +328,7 @@ export type userUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sentence_list?: Prisma.sentenceUpdateManyWithoutAuthorNestedInput;
@@ -325,6 +340,7 @@ export type userUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sentence_list?: Prisma.sentenceUncheckedUpdateManyWithoutAuthorNestedInput;
@@ -336,6 +352,7 @@ export type userCreateManyInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
 };
@@ -344,6 +361,7 @@ export type userUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -353,6 +371,7 @@ export type userUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -362,6 +381,7 @@ export type userCountOrderByAggregateInput = {
   name?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   password?: Prisma.SortOrder;
+  open_ai_api_key?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
 };
@@ -375,6 +395,7 @@ export type userMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   password?: Prisma.SortOrder;
+  open_ai_api_key?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
 };
@@ -384,6 +405,7 @@ export type userMinOrderByAggregateInput = {
   name?: Prisma.SortOrder;
   email?: Prisma.SortOrder;
   password?: Prisma.SortOrder;
+  open_ai_api_key?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
 };
@@ -469,6 +491,7 @@ export type userCreateWithoutSentence_listInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   word_list?: Prisma.wordCreateNestedManyWithoutAuthorInput;
@@ -479,6 +502,7 @@ export type userUncheckedCreateWithoutSentence_listInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   word_list?: Prisma.wordUncheckedCreateNestedManyWithoutAuthorInput;
@@ -516,6 +540,7 @@ export type userUpdateWithoutSentence_listInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   word_list?: Prisma.wordUpdateManyWithoutAuthorNestedInput;
@@ -526,6 +551,7 @@ export type userUncheckedUpdateWithoutSentence_listInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   word_list?: Prisma.wordUncheckedUpdateManyWithoutAuthorNestedInput;
@@ -535,6 +561,7 @@ export type userCreateWithoutWord_listInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   sentence_list?: Prisma.sentenceCreateNestedManyWithoutAuthorInput;
@@ -545,6 +572,7 @@ export type userUncheckedCreateWithoutWord_listInput = {
   name: string;
   email: string;
   password: string;
+  open_ai_api_key?: string;
   create_time?: Date | string;
   update_time?: Date | string;
   sentence_list?: Prisma.sentenceUncheckedCreateNestedManyWithoutAuthorInput;
@@ -582,6 +610,7 @@ export type userUpdateWithoutWord_listInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sentence_list?: Prisma.sentenceUpdateManyWithoutAuthorNestedInput;
@@ -592,6 +621,7 @@ export type userUncheckedUpdateWithoutWord_listInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   email?: Prisma.StringFieldUpdateOperationsInput | string;
   password?: Prisma.StringFieldUpdateOperationsInput | string;
+  open_ai_api_key?: Prisma.StringFieldUpdateOperationsInput | string;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sentence_list?: Prisma.sentenceUncheckedUpdateManyWithoutAuthorNestedInput;
@@ -656,6 +686,7 @@ export type userSelect<
     name?: boolean;
     email?: boolean;
     password?: boolean;
+    open_ai_api_key?: boolean;
     create_time?: boolean;
     update_time?: boolean;
     sentence_list?: boolean | Prisma.user$sentence_listArgs<ExtArgs>;
@@ -674,6 +705,7 @@ export type userSelectCreateManyAndReturn<
     name?: boolean;
     email?: boolean;
     password?: boolean;
+    open_ai_api_key?: boolean;
     create_time?: boolean;
     update_time?: boolean;
   },
@@ -689,6 +721,7 @@ export type userSelectUpdateManyAndReturn<
     name?: boolean;
     email?: boolean;
     password?: boolean;
+    open_ai_api_key?: boolean;
     create_time?: boolean;
     update_time?: boolean;
   },
@@ -700,6 +733,7 @@ export type userSelectScalar = {
   name?: boolean;
   email?: boolean;
   password?: boolean;
+  open_ai_api_key?: boolean;
   create_time?: boolean;
   update_time?: boolean;
 };
@@ -708,7 +742,13 @@ export type userOmit<
   ExtArgs extends
     runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  "id" | "name" | "email" | "password" | "create_time" | "update_time",
+  | "id"
+  | "name"
+  | "email"
+  | "password"
+  | "open_ai_api_key"
+  | "create_time"
+  | "update_time",
   ExtArgs["result"]["user"]
 >;
 export type userInclude<
@@ -743,6 +783,7 @@ export type $userPayload<
       name: string;
       email: string;
       password: string;
+      open_ai_api_key: string;
       create_time: Date;
       update_time: Date;
     },
@@ -1363,6 +1404,7 @@ export interface userFieldRefs {
   readonly name: Prisma.FieldRef<"user", "String">;
   readonly email: Prisma.FieldRef<"user", "String">;
   readonly password: Prisma.FieldRef<"user", "String">;
+  readonly open_ai_api_key: Prisma.FieldRef<"user", "String">;
   readonly create_time: Prisma.FieldRef<"user", "DateTime">;
   readonly update_time: Prisma.FieldRef<"user", "DateTime">;
 }

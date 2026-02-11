@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { LucideMenu, MessageSquareText, BookOpen, LogOut } from "lucide-react";
+import {
+  LucideMenu,
+  MessageSquareText,
+  BookOpen,
+  UserCircle,
+  LogOut,
+} from "lucide-react";
 import LogoImage from "@/../public/image/logo.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -78,6 +84,33 @@ export default function Menu() {
                 );
               })}
               <div className="mt-2 border-t border-gray-04 pt-2">
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMenuModalOpened(false)}
+                  className={`flex items-center gap-3 p-2 transition-colors ${
+                    pathname.startsWith("/profile")
+                      ? "bg-gray-04 text-white"
+                      : "text-gray-02 hover:bg-gray-04/50 hover:text-gray-01"
+                  }`}
+                >
+                  <UserCircle
+                    className={`h-5 w-5 flex-none ${
+                      pathname.startsWith("/profile")
+                        ? "text-white"
+                        : "text-gray-03"
+                    }`}
+                    strokeWidth={pathname.startsWith("/profile") ? 2 : 1.5}
+                  />
+                  <span
+                    className={`text-sm ${
+                      pathname.startsWith("/profile")
+                        ? "font-semibold"
+                        : "font-normal"
+                    }`}
+                  >
+                    {t("menu.profile")}
+                  </span>
+                </Link>
                 <button
                   onClick={async () => {
                     setIsMenuModalOpened(false);

@@ -6,12 +6,13 @@ import {
   deleteSentence,
 } from "@/db/service/sentence";
 import { analyzeText, extractTextFromImage } from "@/lib/openai";
-import { requireAuth } from "@/lib/auth";
+import { requireAuth, getUserApiKey } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function createSentenceAction(text: string) {
   const session = await requireAuth();
-  const { definition, language } = await analyzeText(text);
+  const apiKey = await getUserApiKey(session.userId);
+  const { definition, language } = await analyzeText(apiKey, text);
 
   await createSentence({
     data: {
@@ -26,8 +27,9 @@ export async function createSentenceAction(text: string) {
 }
 
 export async function updateSentenceAction(id: number, text: string) {
-  await requireAuth();
-  const { definition, language } = await analyzeText(text);
+  const session = await requireAuth();
+  const apiKey = await getUserApiKey(session.userId);
+  const { definition, language } = await analyzeText(apiKey, text);
 
   await updateSentence({
     where: { id },
@@ -53,6 +55,7 @@ export async function extractTextFromImageAction(
   base64Image: string,
   mimeType: string,
 ): Promise<string> {
-  await requireAuth();
-  return extractTextFromImage(base64Image, mimeType);
+  const session = await requireAuth();
+  const apiKey = await getUserApiKey(session.userId);
+  return extractTextFromImage(apiKey, base64Image, mimeType);
 }

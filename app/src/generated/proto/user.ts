@@ -15,6 +15,7 @@ export interface User {
   name: string;
   email: string;
   password: string;
+  openAiApiKey: string;
   createTime: Date | undefined;
   updateTime: Date | undefined;
 }
@@ -25,6 +26,7 @@ function createBaseUser(): User {
     name: "",
     email: "",
     password: "",
+    openAiApiKey: "",
     createTime: undefined,
     updateTime: undefined,
   };
@@ -47,16 +49,19 @@ export const User: MessageFns<User> = {
     if (message.password !== "") {
       writer.uint32(34).string(message.password);
     }
+    if (message.openAiApiKey !== "") {
+      writer.uint32(42).string(message.openAiApiKey);
+    }
     if (message.createTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.createTime),
-        writer.uint32(42).fork(),
+        writer.uint32(50).fork(),
       ).join();
     }
     if (message.updateTime !== undefined) {
       Timestamp.encode(
         toTimestamp(message.updateTime),
-        writer.uint32(50).fork(),
+        writer.uint32(58).fork(),
       ).join();
     }
     return writer;
@@ -107,13 +112,21 @@ export const User: MessageFns<User> = {
             break;
           }
 
+          message.openAiApiKey = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
           message.createTime = fromTimestamp(
             Timestamp.decode(reader, reader.uint32()),
           );
           continue;
         }
-        case 6: {
-          if (tag !== 50) {
+        case 7: {
+          if (tag !== 58) {
             break;
           }
 
@@ -139,6 +152,11 @@ export const User: MessageFns<User> = {
       password: isSet(object.password)
         ? globalThis.String(object.password)
         : "",
+      openAiApiKey: isSet(object.openAiApiKey)
+        ? globalThis.String(object.openAiApiKey)
+        : isSet(object.open_ai_api_key)
+          ? globalThis.String(object.open_ai_api_key)
+          : "",
       createTime: isSet(object.createTime)
         ? fromJsonTimestamp(object.createTime)
         : isSet(object.create_time)
@@ -166,6 +184,9 @@ export const User: MessageFns<User> = {
     if (message.password !== "") {
       obj.password = message.password;
     }
+    if (message.openAiApiKey !== "") {
+      obj.openAiApiKey = message.openAiApiKey;
+    }
     if (message.createTime !== undefined) {
       obj.createTime = message.createTime.toISOString();
     }
@@ -184,6 +205,7 @@ export const User: MessageFns<User> = {
     message.name = object.name ?? "";
     message.email = object.email ?? "";
     message.password = object.password ?? "";
+    message.openAiApiKey = object.openAiApiKey ?? "";
     message.createTime = object.createTime ?? undefined;
     message.updateTime = object.updateTime ?? undefined;
     return message;

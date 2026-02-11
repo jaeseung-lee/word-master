@@ -29,6 +29,7 @@ export async function registerAction(
   name: string,
   email: string,
   password: string,
+  openAiApiKey: string,
 ) {
   const existingUser = await getUserByEmail({ email });
   if (existingUser) {
@@ -42,6 +43,7 @@ export async function registerAction(
       name,
       email,
       password: hashedPassword,
+      open_ai_api_key: openAiApiKey,
     },
   });
 

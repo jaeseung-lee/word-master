@@ -2,12 +2,13 @@
 
 import { createWord, updateWord, deleteWord } from "@/db/service/word";
 import { analyzeText } from "@/lib/openai";
-import { requireAuth } from "@/lib/auth";
+import { requireAuth, getUserApiKey } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function createWordAction(text: string, sentenceId: number) {
   const session = await requireAuth();
-  const { definition, language } = await analyzeText(text);
+  const apiKey = await getUserApiKey(session.userId);
+  const { definition, language } = await analyzeText(apiKey, text);
 
   await createWord({
     data: {
@@ -25,8 +26,9 @@ export async function createWordAction(text: string, sentenceId: number) {
 }
 
 export async function updateWordAction(id: number, text: string) {
-  await requireAuth();
-  const { definition, language } = await analyzeText(text);
+  const session = await requireAuth();
+  const apiKey = await getUserApiKey(session.userId);
+  const { definition, language } = await analyzeText(apiKey, text);
 
   const word = await updateWord({
     where: { id },

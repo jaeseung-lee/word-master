@@ -80,6 +80,7 @@ export const UserScalarFieldEnum = {
   name: "name",
   email: "email",
   password: "password",
+  open_ai_api_key: "open_ai_api_key",
   create_time: "create_time",
   update_time: "update_time",
 } as const;

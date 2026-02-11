@@ -1,19 +1,27 @@
 import OpenAI from "openai";
 import type { ChatCompletionContentPart } from "openai/resources/chat/completions";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+/**
+ * 유저의 API 키로 OpenAI 클라이언트를 생성합니다.
+ */
+function createClient(apiKey: string): OpenAI {
+  return new OpenAI({ apiKey });
+}
 
 /**
  * 문장의 뜻(definition)과 언어를 OpenAI로 분석합니다.
  * - definition: 한국어로 된 해석/뜻
  * - language: "LANGUAGE_ENGLISH" | "LANGUAGE_KOREAN" | "LANGUAGE_JAPANESE"
  */
-export async function analyzeText(text: string): Promise<{
+export async function analyzeText(
+  apiKey: string,
+  text: string,
+): Promise<{
   definition: string;
   language: "LANGUAGE_ENGLISH" | "LANGUAGE_KOREAN" | "LANGUAGE_JAPANESE";
 }> {
+  const openai = createClient(apiKey);
+
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -62,9 +70,12 @@ Rules:
  * base64 인코딩된 이미지를 받아 OpenAI Vision으로 OCR을 수행합니다.
  */
 export async function extractTextFromImage(
+  apiKey: string,
   base64Image: string,
   mimeType: string,
 ): Promise<string> {
+  const openai = createClient(apiKey);
+
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [

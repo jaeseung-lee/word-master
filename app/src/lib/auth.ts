@@ -84,3 +84,18 @@ export async function requireAuth(): Promise<SessionPayload> {
   }
   return session;
 }
+
+/**
+ * 현재 유저의 OpenAI API 키를 DB에서 가져옵니다.
+ */
+export async function getUserApiKey(userId: number): Promise<string> {
+  // dynamic import to avoid circular dependency
+  const { getUser } = await import("@/db/service/user");
+  const user = await getUser({ where: { id: userId } });
+
+  if (!user.openAiApiKey) {
+    throw new Error("error.auth.noApiKey");
+  }
+
+  return user.openAiApiKey;
+}
