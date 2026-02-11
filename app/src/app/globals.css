@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-white: #eeeeee;
-  --color-dark-black: #222831;
-  --color-light-black: #31363f;
-  --color-bray: #919191;
+  --color-white: #fafafa;
+  --color-black: #171717;
+  --color-light-black: #242424;
+  --color-gray-01: hsl(0, 0%, 80%);
+  --color-gray-02: hsl(0, 0%, 60%);
+  --color-gray-03: hsl(0, 0%, 40%);
+  --color-gray-04: hsl(0, 0%, 18%);
   --color-primary: #76abae;
+
+  --z-index-backdrop: 999;
+  --z-index-modal: 1000;
 }
