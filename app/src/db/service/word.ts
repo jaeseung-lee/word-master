@@ -1,6 +1,6 @@
 import prisma from "@/db/prisma";
 import type { Prisma } from "@/generated/prisma/client";
-import { Word, type Word as WordType } from "@/generated/proto/word";
+import { Word } from "@/generated/proto/word";
 
 export async function multiGetWordWithPagination({
   data,
@@ -11,7 +11,7 @@ export async function multiGetWordWithPagination({
   skip: Prisma.wordFindManyArgs["skip"];
   take: Prisma.wordFindManyArgs["take"];
 }): Promise<{
-  wordList: WordType[];
+  wordList: Word[];
   numTotalCount: number;
 }> {
   const [rows, numTotalCount] = await prisma.$transaction([
@@ -38,7 +38,7 @@ export async function getWord({
   where,
 }: {
   where: Prisma.wordWhereUniqueInput;
-}): Promise<WordType> {
+}): Promise<Word> {
   const { wordList } = await multiGetWordWithPagination({
     data: { where },
     skip: 0,
@@ -56,7 +56,7 @@ export async function createWord({
   data,
 }: {
   data: Prisma.wordUncheckedCreateInput;
-}): Promise<WordType> {
+}): Promise<Word> {
   return prisma.word.create({ data }).then((row) => Word.fromJSON(row));
 }
 
@@ -66,7 +66,7 @@ export async function updateWord({
 }: {
   where: Prisma.wordWhereUniqueInput;
   data: Prisma.wordUpdateInput;
-}): Promise<WordType> {
+}): Promise<Word> {
   return prisma.word.update({ where, data }).then((row) => Word.fromJSON(row));
 }
 
@@ -74,7 +74,7 @@ export async function deleteWord({
   where,
 }: {
   where: Prisma.wordWhereUniqueInput;
-}): Promise<WordType> {
+}): Promise<Word> {
   return prisma.word.delete({ where }).then((row) => Word.fromJSON(row));
 }
 
@@ -82,7 +82,7 @@ export async function toggleWordBookmark({
   where,
 }: {
   where: Prisma.wordWhereUniqueInput;
-}): Promise<WordType> {
+}): Promise<Word> {
   const word = await getWord({ where });
 
   return prisma.word

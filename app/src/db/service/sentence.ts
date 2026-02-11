@@ -1,11 +1,6 @@
 import prisma from "@/db/prisma";
 import type { Prisma } from "@/generated/prisma/client";
-import {
-  Sentence,
-  SentenceComposite,
-  type Sentence as SentenceType,
-  type SentenceComposite as SentenceCompositeType,
-} from "@/generated/proto/sentence";
+import { Sentence, SentenceComposite } from "@/generated/proto/sentence";
 import { Word } from "@/generated/proto/word";
 
 export async function multiGetSentenceWithPagination({
@@ -17,7 +12,7 @@ export async function multiGetSentenceWithPagination({
   skip: Prisma.sentenceFindManyArgs["skip"];
   take: Prisma.sentenceFindManyArgs["take"];
 }): Promise<{
-  sentenceList: SentenceCompositeType[];
+  sentenceList: SentenceComposite[];
   numTotalCount: number;
 }> {
   const [rows, numTotalCount] = await prisma.$transaction([
@@ -50,7 +45,7 @@ export async function getSentence({
   where,
 }: {
   where: Prisma.sentenceWhereUniqueInput;
-}): Promise<SentenceCompositeType> {
+}): Promise<SentenceComposite> {
   const { sentenceList } = await multiGetSentenceWithPagination({
     data: { where },
     skip: 0,
@@ -68,7 +63,7 @@ export async function createSentence({
   data,
 }: {
   data: Prisma.sentenceCreateInput;
-}): Promise<SentenceType> {
+}): Promise<Sentence> {
   return prisma.sentence.create({ data }).then((row) => Sentence.fromJSON(row));
 }
 
@@ -78,7 +73,7 @@ export async function updateSentence({
 }: {
   where: Prisma.sentenceWhereUniqueInput;
   data: Prisma.sentenceUpdateInput;
-}): Promise<SentenceType> {
+}): Promise<Sentence> {
   return prisma.sentence
     .update({ where, data })
     .then((row) => Sentence.fromJSON(row));
@@ -88,7 +83,7 @@ export async function deleteSentence({
   where,
 }: {
   where: Prisma.sentenceWhereUniqueInput;
-}): Promise<SentenceType> {
+}): Promise<Sentence> {
   return prisma.sentence
     .delete({ where })
     .then((row) => Sentence.fromJSON(row));
@@ -98,7 +93,7 @@ export async function toggleSentenceBookmark({
   where,
 }: {
   where: Prisma.sentenceWhereUniqueInput;
-}): Promise<SentenceType> {
+}): Promise<Sentence> {
   const sentenceComposite = await getSentence({ where });
 
   return prisma.sentence
