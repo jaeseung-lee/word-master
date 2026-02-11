@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model sentence {
+  id            Int      @id @default(autoincrement())
+  text          String   @db.Text
+  definition    String   @db.Text
+  is_bookmarked Boolean  @default(false)
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+
+  word_list word[]
+
+  @@index([text])
+  @@index([is_bookmarked])
+}
+
+model word {
+  id            Int      @id @default(autoincrement())
+  text          String   @db.VarChar(255)
+  definition    String   @db.Text
+  is_bookmarked Boolean  @default(false)
+  sentence_id   Int
+  sentence      sentence @relation(fields: [sentence_id], references: [id])
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+
+  @@index([text])
+  @@index([is_bookmarked])
+}
