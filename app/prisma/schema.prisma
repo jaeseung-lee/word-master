@@ -14,10 +14,17 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Language {
+  LANGUAGE_ENGLISH
+  LANGUAGE_KOREAN
+  LANGUAGE_JAPANESE
+}
+
 model sentence {
   id            Int      @id @default(autoincrement())
   text          String   @db.Text
   definition    String   @db.Text
+  language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
@@ -32,6 +39,7 @@ model word {
   id            Int      @id @default(autoincrement())
   text          String   @db.VarChar(255)
   definition    String   @db.Text
+  language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
   sentence_id   Int
   sentence      sentence @relation(fields: [sentence_id], references: [id])

@@ -1,0 +1,8 @@
+-- CreateEnum
+CREATE TYPE "Language" AS ENUM ('LANGUAGE_ENGLISH', 'LANGUAGE_KOREAN', 'LANGUAGE_JAPANESE');
+
+-- AlterTable
+ALTER TABLE "sentence" ADD COLUMN     "language" "Language" NOT NULL DEFAULT 'LANGUAGE_JAPANESE';
+
+-- AlterTable
+ALTER TABLE "word" ADD COLUMN     "language" "Language" NOT NULL DEFAULT 'LANGUAGE_JAPANESE';
