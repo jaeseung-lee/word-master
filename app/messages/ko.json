@@ -39,6 +39,29 @@
       "LANGUAGE_JAPANESE": "일본어"
     }
   },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "register": "회원가입",
+    "loginSubtitle": "계정에 로그인하세요",
+    "registerSubtitle": "새 계정을 만드세요",
+    "email": "이메일",
+    "emailPlaceholder": "이메일을 입력하세요",
+    "password": "비밀번호",
+    "passwordPlaceholder": "비밀번호를 입력하세요",
+    "confirmPassword": "비밀번호 확인",
+    "confirmPasswordPlaceholder": "비밀번호를 다시 입력하세요",
+    "name": "이름",
+    "namePlaceholder": "이름을 입력하세요",
+    "loggingIn": "로그인 중...",
+    "registering": "가입 중...",
+    "noAccount": "계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다.",
+    "emailAlreadyExists": "이미 사용 중인 이메일입니다.",
+    "passwordMismatch": "비밀번호가 일치하지 않습니다.",
+    "passwordTooShort": "비밀번호는 6자 이상이어야 합니다."
+  },
   "menu": {
     "sentences": "문장",
     "words": "단어"

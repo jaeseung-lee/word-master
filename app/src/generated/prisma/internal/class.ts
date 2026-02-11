@@ -19,7 +19,7 @@ const config: runtime.GetPrismaClientConfig = {
   engineVersion: "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   activeProvider: "postgresql",
   inlineSchema:
-    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nenum Language {\n  LANGUAGE_ENGLISH\n  LANGUAGE_KOREAN\n  LANGUAGE_JAPANESE\n}\n\nmodel sentence {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.Text\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  word_list word[]\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n\nmodel word {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.VarChar(255)\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  sentence_id   Int\n  sentence      sentence @relation(fields: [sentence_id], references: [id])\n  create_time   DateTime @default(now())\n  update_time   DateTime @updatedAt\n\n  @@index([text])\n  @@index([is_bookmarked])\n}\n',
+    '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated/prisma"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nenum Language {\n  LANGUAGE_UNSPECIFIED\n  LANGUAGE_ENGLISH\n  LANGUAGE_KOREAN\n  LANGUAGE_JAPANESE\n}\n\nmodel user {\n  id          Int      @id @default(autoincrement())\n  name        String   @db.VarChar(255)\n  email       String   @db.VarChar(255)\n  password    String   @db.VarChar(255)\n  create_time DateTime @default(now())\n  update_time DateTime @updatedAt\n\n  sentence_list sentence[]\n  word_list     word[]\n}\n\nmodel sentence {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.Text\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  author_id     Int\n  author        user     @relation(fields: [author_id], references: [id])\n\n  create_time DateTime @default(now())\n  update_time DateTime @updatedAt\n\n  word_list word[]\n\n  @@index([text])\n  @@index([is_bookmarked])\n  @@index([author_id])\n}\n\nmodel word {\n  id            Int      @id @default(autoincrement())\n  text          String   @db.VarChar(255)\n  definition    String   @db.Text\n  language      Language @default(LANGUAGE_JAPANESE)\n  is_bookmarked Boolean  @default(false)\n  author_id     Int\n  author        user     @relation(fields: [author_id], references: [id])\n\n  sentence_id Int\n  sentence    sentence @relation(fields: [sentence_id], references: [id])\n  create_time DateTime @default(now())\n  update_time DateTime @updatedAt\n\n  @@index([text])\n  @@index([is_bookmarked])\n  @@index([author_id])\n}\n',
   runtimeDataModel: {
     models: {},
     enums: {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
 };
 
 config.runtimeDataModel = JSON.parse(
-  '{"models":{"sentence":{"fields":[{"name":"id","kind":"scalar","type":"Int"},{"name":"text","kind":"scalar","type":"String"},{"name":"definition","kind":"scalar","type":"String"},{"name":"language","kind":"enum","type":"Language"},{"name":"is_bookmarked","kind":"scalar","type":"Boolean"},{"name":"create_time","kind":"scalar","type":"DateTime"},{"name":"update_time","kind":"scalar","type":"DateTime"},{"name":"word_list","kind":"object","type":"word","relationName":"sentenceToword"}],"dbName":null},"word":{"fields":[{"name":"id","kind":"scalar","type":"Int"},{"name":"text","kind":"scalar","type":"String"},{"name":"definition","kind":"scalar","type":"String"},{"name":"language","kind":"enum","type":"Language"},{"name":"is_bookmarked","kind":"scalar","type":"Boolean"},{"name":"sentence_id","kind":"scalar","type":"Int"},{"name":"sentence","kind":"object","type":"sentence","relationName":"sentenceToword"},{"name":"create_time","kind":"scalar","type":"DateTime"},{"name":"update_time","kind":"scalar","type":"DateTime"}],"dbName":null}},"enums":{},"types":{}}',
+  '{"models":{"user":{"fields":[{"name":"id","kind":"scalar","type":"Int"},{"name":"name","kind":"scalar","type":"String"},{"name":"email","kind":"scalar","type":"String"},{"name":"password","kind":"scalar","type":"String"},{"name":"create_time","kind":"scalar","type":"DateTime"},{"name":"update_time","kind":"scalar","type":"DateTime"},{"name":"sentence_list","kind":"object","type":"sentence","relationName":"sentenceTouser"},{"name":"word_list","kind":"object","type":"word","relationName":"userToword"}],"dbName":null},"sentence":{"fields":[{"name":"id","kind":"scalar","type":"Int"},{"name":"text","kind":"scalar","type":"String"},{"name":"definition","kind":"scalar","type":"String"},{"name":"language","kind":"enum","type":"Language"},{"name":"is_bookmarked","kind":"scalar","type":"Boolean"},{"name":"author_id","kind":"scalar","type":"Int"},{"name":"author","kind":"object","type":"user","relationName":"sentenceTouser"},{"name":"create_time","kind":"scalar","type":"DateTime"},{"name":"update_time","kind":"scalar","type":"DateTime"},{"name":"word_list","kind":"object","type":"word","relationName":"sentenceToword"}],"dbName":null},"word":{"fields":[{"name":"id","kind":"scalar","type":"Int"},{"name":"text","kind":"scalar","type":"String"},{"name":"definition","kind":"scalar","type":"String"},{"name":"language","kind":"enum","type":"Language"},{"name":"is_bookmarked","kind":"scalar","type":"Boolean"},{"name":"author_id","kind":"scalar","type":"Int"},{"name":"author","kind":"object","type":"user","relationName":"userToword"},{"name":"sentence_id","kind":"scalar","type":"Int"},{"name":"sentence","kind":"object","type":"sentence","relationName":"sentenceToword"},{"name":"create_time","kind":"scalar","type":"DateTime"},{"name":"update_time","kind":"scalar","type":"DateTime"}],"dbName":null}},"enums":{},"types":{}}',
 );
 
 async function decodeBase64AsWasm(
@@ -70,8 +70,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Sentences
-   * const sentences = await prisma.sentence.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    * Read more in our [docs](https://pris.ly/d/client).
@@ -99,8 +99,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Sentences
- * const sentences = await prisma.sentence.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -229,6 +229,16 @@ export interface PrismaClient<
       }
     >
   >;
+
+  /**
+   * `prisma.user`: Exposes CRUD operations for the **user** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
+   * ```
+   */
+  get user(): Prisma.userDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.sentence`: Exposes CRUD operations for the **sentence** model.

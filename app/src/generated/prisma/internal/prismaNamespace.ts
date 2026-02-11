@@ -412,6 +412,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never
   : FieldRef<Model, FieldType>;
 
 export const ModelName = {
+  user: "user",
   sentence: "sentence",
   word: "word",
 } as const;
@@ -435,10 +436,86 @@ export type TypeMap<
     omit: GlobalOmitOptions;
   };
   meta: {
-    modelProps: "sentence" | "word";
+    modelProps: "user" | "sentence" | "word";
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
+    user: {
+      payload: Prisma.$userPayload<ExtArgs>;
+      fields: Prisma.userFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.userFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.userFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        findFirst: {
+          args: Prisma.userFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.userFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        findMany: {
+          args: Prisma.userFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>[];
+        };
+        create: {
+          args: Prisma.userCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        createMany: {
+          args: Prisma.userCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.userCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>[];
+        };
+        delete: {
+          args: Prisma.userDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        update: {
+          args: Prisma.userUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        deleteMany: {
+          args: Prisma.userDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.userUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.userUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>[];
+        };
+        upsert: {
+          args: Prisma.userUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$userPayload>;
+        };
+        aggregate: {
+          args: Prisma.UserAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser>;
+        };
+        groupBy: {
+          args: Prisma.userGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.UserGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.userCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
     sentence: {
       payload: Prisma.$sentencePayload<ExtArgs>;
       fields: Prisma.sentenceFieldRefs;
@@ -630,12 +707,25 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel =
   (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
+export const UserScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  email: "email",
+  password: "password",
+  create_time: "create_time",
+  update_time: "update_time",
+} as const;
+
+export type UserScalarFieldEnum =
+  (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+
 export const SentenceScalarFieldEnum = {
   id: "id",
   text: "text",
   definition: "definition",
   language: "language",
   is_bookmarked: "is_bookmarked",
+  author_id: "author_id",
   create_time: "create_time",
   update_time: "update_time",
 } as const;
@@ -649,6 +739,7 @@ export const WordScalarFieldEnum = {
   definition: "definition",
   language: "language",
   is_bookmarked: "is_bookmarked",
+  author_id: "author_id",
   sentence_id: "sentence_id",
   create_time: "create_time",
   update_time: "update_time",
@@ -708,6 +799,22 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  "DateTime"
+>;
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  "DateTime[]"
+>;
+
+/**
  * Reference to a field of type 'Language'
  */
 export type EnumLanguageFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -729,22 +836,6 @@ export type ListEnumLanguageFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   "Boolean"
->;
-
-/**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
-  $PrismaModel,
-  "DateTime"
->;
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<
-  $PrismaModel,
-  "DateTime[]"
 >;
 
 /**
@@ -866,6 +957,7 @@ export type PrismaClientOptions = (
   comments?: runtime.SqlCommenterPlugin[];
 };
 export type GlobalOmitConfig = {
+  user?: Prisma.userOmit;
   sentence?: Prisma.sentenceOmit;
   word?: Prisma.wordOmit;
 };

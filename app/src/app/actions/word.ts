@@ -2,9 +2,11 @@
 
 import { createWord, updateWord, deleteWord } from "@/db/service/word";
 import { analyzeText } from "@/lib/openai";
+import { requireAuth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function createWordAction(text: string, sentenceId: number) {
+  const session = await requireAuth();
   const { definition, language } = await analyzeText(text);
 
   await createWord({
@@ -13,6 +15,7 @@ export async function createWordAction(text: string, sentenceId: number) {
       definition,
       language: language as any,
       sentence_id: sentenceId,
+      author_id: session.userId,
     },
   });
 
@@ -22,6 +25,7 @@ export async function createWordAction(text: string, sentenceId: number) {
 }
 
 export async function updateWordAction(id: number, text: string) {
+  await requireAuth();
   const { definition, language } = await analyzeText(text);
 
   const word = await updateWord({
@@ -39,6 +43,7 @@ export async function updateWordAction(id: number, text: string) {
 }
 
 export async function deleteWordAction(id: number, sentenceId: number) {
+  await requireAuth();
   await deleteWord({ where: { id } });
 
   revalidatePath("/");

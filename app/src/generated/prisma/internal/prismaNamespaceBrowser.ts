@@ -54,6 +54,7 @@ export const JsonNull = runtime.JsonNull;
 export const AnyNull = runtime.AnyNull;
 
 export const ModelName = {
+  user: "user",
   sentence: "sentence",
   word: "word",
 } as const;
@@ -74,12 +75,25 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel =
   (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
+export const UserScalarFieldEnum = {
+  id: "id",
+  name: "name",
+  email: "email",
+  password: "password",
+  create_time: "create_time",
+  update_time: "update_time",
+} as const;
+
+export type UserScalarFieldEnum =
+  (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+
 export const SentenceScalarFieldEnum = {
   id: "id",
   text: "text",
   definition: "definition",
   language: "language",
   is_bookmarked: "is_bookmarked",
+  author_id: "author_id",
   create_time: "create_time",
   update_time: "update_time",
 } as const;
@@ -93,6 +107,7 @@ export const WordScalarFieldEnum = {
   definition: "definition",
   language: "language",
   is_bookmarked: "is_bookmarked",
+  author_id: "author_id",
   sentence_id: "sentence_id",
   create_time: "create_time",
   update_time: "update_time",

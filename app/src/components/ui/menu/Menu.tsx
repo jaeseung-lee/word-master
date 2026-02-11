@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { LucideMenu, MessageSquareText, BookOpen } from "lucide-react";
+import { LucideMenu, MessageSquareText, BookOpen, LogOut } from "lucide-react";
 import LogoImage from "@/../public/image/logo.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,6 +9,7 @@ import { ModalLayout } from "../modal/ModalLayout";
 import ModalProvider from "../modal/ModalProvider";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { logoutAction } from "@/app/actions/auth";
 
 const menuItems = [
   { icon: MessageSquareText, labelKey: "menu.sentences", href: "/" },
@@ -76,6 +77,23 @@ export default function Menu() {
                   </Link>
                 );
               })}
+              <div className="mt-2 border-t border-gray-04 pt-2">
+                <button
+                  onClick={async () => {
+                    setIsMenuModalOpened(false);
+                    await logoutAction();
+                  }}
+                  className="flex w-full items-center gap-3 p-2 text-gray-02 transition-colors hover:bg-gray-04/50 hover:text-gray-01"
+                >
+                  <LogOut
+                    className="h-5 w-5 flex-none text-gray-03"
+                    strokeWidth={1.5}
+                  />
+                  <span className="text-sm font-normal">
+                    {t("auth.logout")}
+                  </span>
+                </button>
+              </div>
             </nav>
           </ModalLayout>
         )}

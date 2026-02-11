@@ -28,11 +28,13 @@ export type AggregateWord = {
 
 export type WordAvgAggregateOutputType = {
   id: number | null;
+  author_id: number | null;
   sentence_id: number | null;
 };
 
 export type WordSumAggregateOutputType = {
   id: number | null;
+  author_id: number | null;
   sentence_id: number | null;
 };
 
@@ -42,6 +44,7 @@ export type WordMinAggregateOutputType = {
   definition: string | null;
   language: $Enums.Language | null;
   is_bookmarked: boolean | null;
+  author_id: number | null;
   sentence_id: number | null;
   create_time: Date | null;
   update_time: Date | null;
@@ -53,6 +56,7 @@ export type WordMaxAggregateOutputType = {
   definition: string | null;
   language: $Enums.Language | null;
   is_bookmarked: boolean | null;
+  author_id: number | null;
   sentence_id: number | null;
   create_time: Date | null;
   update_time: Date | null;
@@ -64,6 +68,7 @@ export type WordCountAggregateOutputType = {
   definition: number;
   language: number;
   is_bookmarked: number;
+  author_id: number;
   sentence_id: number;
   create_time: number;
   update_time: number;
@@ -72,11 +77,13 @@ export type WordCountAggregateOutputType = {
 
 export type WordAvgAggregateInputType = {
   id?: true;
+  author_id?: true;
   sentence_id?: true;
 };
 
 export type WordSumAggregateInputType = {
   id?: true;
+  author_id?: true;
   sentence_id?: true;
 };
 
@@ -86,6 +93,7 @@ export type WordMinAggregateInputType = {
   definition?: true;
   language?: true;
   is_bookmarked?: true;
+  author_id?: true;
   sentence_id?: true;
   create_time?: true;
   update_time?: true;
@@ -97,6 +105,7 @@ export type WordMaxAggregateInputType = {
   definition?: true;
   language?: true;
   is_bookmarked?: true;
+  author_id?: true;
   sentence_id?: true;
   create_time?: true;
   update_time?: true;
@@ -108,6 +117,7 @@ export type WordCountAggregateInputType = {
   definition?: true;
   language?: true;
   is_bookmarked?: true;
+  author_id?: true;
   sentence_id?: true;
   create_time?: true;
   update_time?: true;
@@ -213,6 +223,7 @@ export type WordGroupByOutputType = {
   definition: string;
   language: $Enums.Language;
   is_bookmarked: boolean;
+  author_id: number;
   sentence_id: number;
   create_time: Date;
   update_time: Date;
@@ -244,9 +255,11 @@ export type wordWhereInput = {
   definition?: Prisma.StringFilter<"word"> | string;
   language?: Prisma.EnumLanguageFilter<"word"> | $Enums.Language;
   is_bookmarked?: Prisma.BoolFilter<"word"> | boolean;
+  author_id?: Prisma.IntFilter<"word"> | number;
   sentence_id?: Prisma.IntFilter<"word"> | number;
   create_time?: Prisma.DateTimeFilter<"word"> | Date | string;
   update_time?: Prisma.DateTimeFilter<"word"> | Date | string;
+  author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>;
   sentence?: Prisma.XOR<
     Prisma.SentenceScalarRelationFilter,
     Prisma.sentenceWhereInput
@@ -259,9 +272,11 @@ export type wordOrderByWithRelationInput = {
   definition?: Prisma.SortOrder;
   language?: Prisma.SortOrder;
   is_bookmarked?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
+  author?: Prisma.userOrderByWithRelationInput;
   sentence?: Prisma.sentenceOrderByWithRelationInput;
 };
 
@@ -275,9 +290,11 @@ export type wordWhereUniqueInput = Prisma.AtLeast<
     definition?: Prisma.StringFilter<"word"> | string;
     language?: Prisma.EnumLanguageFilter<"word"> | $Enums.Language;
     is_bookmarked?: Prisma.BoolFilter<"word"> | boolean;
+    author_id?: Prisma.IntFilter<"word"> | number;
     sentence_id?: Prisma.IntFilter<"word"> | number;
     create_time?: Prisma.DateTimeFilter<"word"> | Date | string;
     update_time?: Prisma.DateTimeFilter<"word"> | Date | string;
+    author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>;
     sentence?: Prisma.XOR<
       Prisma.SentenceScalarRelationFilter,
       Prisma.sentenceWhereInput
@@ -292,6 +309,7 @@ export type wordOrderByWithAggregationInput = {
   definition?: Prisma.SortOrder;
   language?: Prisma.SortOrder;
   is_bookmarked?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
@@ -315,6 +333,7 @@ export type wordScalarWhereWithAggregatesInput = {
   definition?: Prisma.StringWithAggregatesFilter<"word"> | string;
   language?: Prisma.EnumLanguageWithAggregatesFilter<"word"> | $Enums.Language;
   is_bookmarked?: Prisma.BoolWithAggregatesFilter<"word"> | boolean;
+  author_id?: Prisma.IntWithAggregatesFilter<"word"> | number;
   sentence_id?: Prisma.IntWithAggregatesFilter<"word"> | number;
   create_time?: Prisma.DateTimeWithAggregatesFilter<"word"> | Date | string;
   update_time?: Prisma.DateTimeWithAggregatesFilter<"word"> | Date | string;
@@ -327,6 +346,7 @@ export type wordCreateInput = {
   is_bookmarked?: boolean;
   create_time?: Date | string;
   update_time?: Date | string;
+  author: Prisma.userCreateNestedOneWithoutWord_listInput;
   sentence: Prisma.sentenceCreateNestedOneWithoutWord_listInput;
 };
 
@@ -336,6 +356,7 @@ export type wordUncheckedCreateInput = {
   definition: string;
   language?: $Enums.Language;
   is_bookmarked?: boolean;
+  author_id: number;
   sentence_id: number;
   create_time?: Date | string;
   update_time?: Date | string;
@@ -348,6 +369,7 @@ export type wordUpdateInput = {
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  author?: Prisma.userUpdateOneRequiredWithoutWord_listNestedInput;
   sentence?: Prisma.sentenceUpdateOneRequiredWithoutWord_listNestedInput;
 };
 
@@ -357,6 +379,7 @@ export type wordUncheckedUpdateInput = {
   definition?: Prisma.StringFieldUpdateOperationsInput | string;
   language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  author_id?: Prisma.IntFieldUpdateOperationsInput | number;
   sentence_id?: Prisma.IntFieldUpdateOperationsInput | number;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -368,6 +391,7 @@ export type wordCreateManyInput = {
   definition: string;
   language?: $Enums.Language;
   is_bookmarked?: boolean;
+  author_id: number;
   sentence_id: number;
   create_time?: Date | string;
   update_time?: Date | string;
@@ -388,6 +412,7 @@ export type wordUncheckedUpdateManyInput = {
   definition?: Prisma.StringFieldUpdateOperationsInput | string;
   language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  author_id?: Prisma.IntFieldUpdateOperationsInput | number;
   sentence_id?: Prisma.IntFieldUpdateOperationsInput | number;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -409,6 +434,7 @@ export type wordCountOrderByAggregateInput = {
   definition?: Prisma.SortOrder;
   language?: Prisma.SortOrder;
   is_bookmarked?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
@@ -416,6 +442,7 @@ export type wordCountOrderByAggregateInput = {
 
 export type wordAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
 };
 
@@ -425,6 +452,7 @@ export type wordMaxOrderByAggregateInput = {
   definition?: Prisma.SortOrder;
   language?: Prisma.SortOrder;
   is_bookmarked?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
@@ -436,6 +464,7 @@ export type wordMinOrderByAggregateInput = {
   definition?: Prisma.SortOrder;
   language?: Prisma.SortOrder;
   is_bookmarked?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
   create_time?: Prisma.SortOrder;
   update_time?: Prisma.SortOrder;
@@ -443,7 +472,94 @@ export type wordMinOrderByAggregateInput = {
 
 export type wordSumOrderByAggregateInput = {
   id?: Prisma.SortOrder;
+  author_id?: Prisma.SortOrder;
   sentence_id?: Prisma.SortOrder;
+};
+
+export type wordCreateNestedManyWithoutAuthorInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.wordCreateWithoutAuthorInput,
+        Prisma.wordUncheckedCreateWithoutAuthorInput
+      >
+    | Prisma.wordCreateWithoutAuthorInput[]
+    | Prisma.wordUncheckedCreateWithoutAuthorInput[];
+  connectOrCreate?:
+    | Prisma.wordCreateOrConnectWithoutAuthorInput
+    | Prisma.wordCreateOrConnectWithoutAuthorInput[];
+  createMany?: Prisma.wordCreateManyAuthorInputEnvelope;
+  connect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+};
+
+export type wordUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.wordCreateWithoutAuthorInput,
+        Prisma.wordUncheckedCreateWithoutAuthorInput
+      >
+    | Prisma.wordCreateWithoutAuthorInput[]
+    | Prisma.wordUncheckedCreateWithoutAuthorInput[];
+  connectOrCreate?:
+    | Prisma.wordCreateOrConnectWithoutAuthorInput
+    | Prisma.wordCreateOrConnectWithoutAuthorInput[];
+  createMany?: Prisma.wordCreateManyAuthorInputEnvelope;
+  connect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+};
+
+export type wordUpdateManyWithoutAuthorNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.wordCreateWithoutAuthorInput,
+        Prisma.wordUncheckedCreateWithoutAuthorInput
+      >
+    | Prisma.wordCreateWithoutAuthorInput[]
+    | Prisma.wordUncheckedCreateWithoutAuthorInput[];
+  connectOrCreate?:
+    | Prisma.wordCreateOrConnectWithoutAuthorInput
+    | Prisma.wordCreateOrConnectWithoutAuthorInput[];
+  upsert?:
+    | Prisma.wordUpsertWithWhereUniqueWithoutAuthorInput
+    | Prisma.wordUpsertWithWhereUniqueWithoutAuthorInput[];
+  createMany?: Prisma.wordCreateManyAuthorInputEnvelope;
+  set?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  disconnect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  delete?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  connect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  update?:
+    | Prisma.wordUpdateWithWhereUniqueWithoutAuthorInput
+    | Prisma.wordUpdateWithWhereUniqueWithoutAuthorInput[];
+  updateMany?:
+    | Prisma.wordUpdateManyWithWhereWithoutAuthorInput
+    | Prisma.wordUpdateManyWithWhereWithoutAuthorInput[];
+  deleteMany?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
+};
+
+export type wordUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?:
+    | Prisma.XOR<
+        Prisma.wordCreateWithoutAuthorInput,
+        Prisma.wordUncheckedCreateWithoutAuthorInput
+      >
+    | Prisma.wordCreateWithoutAuthorInput[]
+    | Prisma.wordUncheckedCreateWithoutAuthorInput[];
+  connectOrCreate?:
+    | Prisma.wordCreateOrConnectWithoutAuthorInput
+    | Prisma.wordCreateOrConnectWithoutAuthorInput[];
+  upsert?:
+    | Prisma.wordUpsertWithWhereUniqueWithoutAuthorInput
+    | Prisma.wordUpsertWithWhereUniqueWithoutAuthorInput[];
+  createMany?: Prisma.wordCreateManyAuthorInputEnvelope;
+  set?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  disconnect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  delete?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  connect?: Prisma.wordWhereUniqueInput | Prisma.wordWhereUniqueInput[];
+  update?:
+    | Prisma.wordUpdateWithWhereUniqueWithoutAuthorInput
+    | Prisma.wordUpdateWithWhereUniqueWithoutAuthorInput[];
+  updateMany?:
+    | Prisma.wordUpdateManyWithWhereWithoutAuthorInput
+    | Prisma.wordUpdateManyWithWhereWithoutAuthorInput[];
+  deleteMany?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
 };
 
 export type wordCreateNestedManyWithoutSentenceInput = {
@@ -532,6 +648,83 @@ export type wordUncheckedUpdateManyWithoutSentenceNestedInput = {
   deleteMany?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
 };
 
+export type wordCreateWithoutAuthorInput = {
+  text: string;
+  definition: string;
+  language?: $Enums.Language;
+  is_bookmarked?: boolean;
+  create_time?: Date | string;
+  update_time?: Date | string;
+  sentence: Prisma.sentenceCreateNestedOneWithoutWord_listInput;
+};
+
+export type wordUncheckedCreateWithoutAuthorInput = {
+  id?: number;
+  text: string;
+  definition: string;
+  language?: $Enums.Language;
+  is_bookmarked?: boolean;
+  sentence_id: number;
+  create_time?: Date | string;
+  update_time?: Date | string;
+};
+
+export type wordCreateOrConnectWithoutAuthorInput = {
+  where: Prisma.wordWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.wordCreateWithoutAuthorInput,
+    Prisma.wordUncheckedCreateWithoutAuthorInput
+  >;
+};
+
+export type wordCreateManyAuthorInputEnvelope = {
+  data: Prisma.wordCreateManyAuthorInput | Prisma.wordCreateManyAuthorInput[];
+  skipDuplicates?: boolean;
+};
+
+export type wordUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.wordWhereUniqueInput;
+  update: Prisma.XOR<
+    Prisma.wordUpdateWithoutAuthorInput,
+    Prisma.wordUncheckedUpdateWithoutAuthorInput
+  >;
+  create: Prisma.XOR<
+    Prisma.wordCreateWithoutAuthorInput,
+    Prisma.wordUncheckedCreateWithoutAuthorInput
+  >;
+};
+
+export type wordUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.wordWhereUniqueInput;
+  data: Prisma.XOR<
+    Prisma.wordUpdateWithoutAuthorInput,
+    Prisma.wordUncheckedUpdateWithoutAuthorInput
+  >;
+};
+
+export type wordUpdateManyWithWhereWithoutAuthorInput = {
+  where: Prisma.wordScalarWhereInput;
+  data: Prisma.XOR<
+    Prisma.wordUpdateManyMutationInput,
+    Prisma.wordUncheckedUpdateManyWithoutAuthorInput
+  >;
+};
+
+export type wordScalarWhereInput = {
+  AND?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
+  OR?: Prisma.wordScalarWhereInput[];
+  NOT?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
+  id?: Prisma.IntFilter<"word"> | number;
+  text?: Prisma.StringFilter<"word"> | string;
+  definition?: Prisma.StringFilter<"word"> | string;
+  language?: Prisma.EnumLanguageFilter<"word"> | $Enums.Language;
+  is_bookmarked?: Prisma.BoolFilter<"word"> | boolean;
+  author_id?: Prisma.IntFilter<"word"> | number;
+  sentence_id?: Prisma.IntFilter<"word"> | number;
+  create_time?: Prisma.DateTimeFilter<"word"> | Date | string;
+  update_time?: Prisma.DateTimeFilter<"word"> | Date | string;
+};
+
 export type wordCreateWithoutSentenceInput = {
   text: string;
   definition: string;
@@ -539,6 +732,7 @@ export type wordCreateWithoutSentenceInput = {
   is_bookmarked?: boolean;
   create_time?: Date | string;
   update_time?: Date | string;
+  author: Prisma.userCreateNestedOneWithoutWord_listInput;
 };
 
 export type wordUncheckedCreateWithoutSentenceInput = {
@@ -547,6 +741,7 @@ export type wordUncheckedCreateWithoutSentenceInput = {
   definition: string;
   language?: $Enums.Language;
   is_bookmarked?: boolean;
+  author_id: number;
   create_time?: Date | string;
   update_time?: Date | string;
 };
@@ -594,18 +789,47 @@ export type wordUpdateManyWithWhereWithoutSentenceInput = {
   >;
 };
 
-export type wordScalarWhereInput = {
-  AND?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
-  OR?: Prisma.wordScalarWhereInput[];
-  NOT?: Prisma.wordScalarWhereInput | Prisma.wordScalarWhereInput[];
-  id?: Prisma.IntFilter<"word"> | number;
-  text?: Prisma.StringFilter<"word"> | string;
-  definition?: Prisma.StringFilter<"word"> | string;
-  language?: Prisma.EnumLanguageFilter<"word"> | $Enums.Language;
-  is_bookmarked?: Prisma.BoolFilter<"word"> | boolean;
-  sentence_id?: Prisma.IntFilter<"word"> | number;
-  create_time?: Prisma.DateTimeFilter<"word"> | Date | string;
-  update_time?: Prisma.DateTimeFilter<"word"> | Date | string;
+export type wordCreateManyAuthorInput = {
+  id?: number;
+  text: string;
+  definition: string;
+  language?: $Enums.Language;
+  is_bookmarked?: boolean;
+  sentence_id: number;
+  create_time?: Date | string;
+  update_time?: Date | string;
+};
+
+export type wordUpdateWithoutAuthorInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string;
+  definition?: Prisma.StringFieldUpdateOperationsInput | string;
+  language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
+  is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sentence?: Prisma.sentenceUpdateOneRequiredWithoutWord_listNestedInput;
+};
+
+export type wordUncheckedUpdateWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  text?: Prisma.StringFieldUpdateOperationsInput | string;
+  definition?: Prisma.StringFieldUpdateOperationsInput | string;
+  language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
+  is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  sentence_id?: Prisma.IntFieldUpdateOperationsInput | number;
+  create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+
+export type wordUncheckedUpdateManyWithoutAuthorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number;
+  text?: Prisma.StringFieldUpdateOperationsInput | string;
+  definition?: Prisma.StringFieldUpdateOperationsInput | string;
+  language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
+  is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  sentence_id?: Prisma.IntFieldUpdateOperationsInput | number;
+  create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
 export type wordCreateManySentenceInput = {
@@ -614,6 +838,7 @@ export type wordCreateManySentenceInput = {
   definition: string;
   language?: $Enums.Language;
   is_bookmarked?: boolean;
+  author_id: number;
   create_time?: Date | string;
   update_time?: Date | string;
 };
@@ -625,6 +850,7 @@ export type wordUpdateWithoutSentenceInput = {
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  author?: Prisma.userUpdateOneRequiredWithoutWord_listNestedInput;
 };
 
 export type wordUncheckedUpdateWithoutSentenceInput = {
@@ -633,6 +859,7 @@ export type wordUncheckedUpdateWithoutSentenceInput = {
   definition?: Prisma.StringFieldUpdateOperationsInput | string;
   language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  author_id?: Prisma.IntFieldUpdateOperationsInput | number;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -643,6 +870,7 @@ export type wordUncheckedUpdateManyWithoutSentenceInput = {
   definition?: Prisma.StringFieldUpdateOperationsInput | string;
   language?: Prisma.EnumLanguageFieldUpdateOperationsInput | $Enums.Language;
   is_bookmarked?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  author_id?: Prisma.IntFieldUpdateOperationsInput | number;
   create_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   update_time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -657,9 +885,11 @@ export type wordSelect<
     definition?: boolean;
     language?: boolean;
     is_bookmarked?: boolean;
+    author_id?: boolean;
     sentence_id?: boolean;
     create_time?: boolean;
     update_time?: boolean;
+    author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
     sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["word"]
@@ -675,9 +905,11 @@ export type wordSelectCreateManyAndReturn<
     definition?: boolean;
     language?: boolean;
     is_bookmarked?: boolean;
+    author_id?: boolean;
     sentence_id?: boolean;
     create_time?: boolean;
     update_time?: boolean;
+    author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
     sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["word"]
@@ -693,9 +925,11 @@ export type wordSelectUpdateManyAndReturn<
     definition?: boolean;
     language?: boolean;
     is_bookmarked?: boolean;
+    author_id?: boolean;
     sentence_id?: boolean;
     create_time?: boolean;
     update_time?: boolean;
+    author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
     sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["word"]
@@ -707,6 +941,7 @@ export type wordSelectScalar = {
   definition?: boolean;
   language?: boolean;
   is_bookmarked?: boolean;
+  author_id?: boolean;
   sentence_id?: boolean;
   create_time?: boolean;
   update_time?: boolean;
@@ -721,6 +956,7 @@ export type wordOmit<
   | "definition"
   | "language"
   | "is_bookmarked"
+  | "author_id"
   | "sentence_id"
   | "create_time"
   | "update_time",
@@ -730,18 +966,21 @@ export type wordInclude<
   ExtArgs extends
     runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
+  author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
   sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
 };
 export type wordIncludeCreateManyAndReturn<
   ExtArgs extends
     runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
+  author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
   sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
 };
 export type wordIncludeUpdateManyAndReturn<
   ExtArgs extends
     runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
+  author?: boolean | Prisma.userDefaultArgs<ExtArgs>;
   sentence?: boolean | Prisma.sentenceDefaultArgs<ExtArgs>;
 };
 
@@ -751,6 +990,7 @@ export type $wordPayload<
 > = {
   name: "word";
   objects: {
+    author: Prisma.$userPayload<ExtArgs>;
     sentence: Prisma.$sentencePayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
@@ -760,6 +1000,7 @@ export type $wordPayload<
       definition: string;
       language: $Enums.Language;
       is_bookmarked: boolean;
+      author_id: number;
       sentence_id: number;
       create_time: Date;
       update_time: Date;
@@ -1313,6 +1554,20 @@ export interface Prisma__wordClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise";
+  author<T extends Prisma.userDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.userDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__userClient<
+    | runtime.Types.Result.GetResult<
+        Prisma.$userPayload<ExtArgs>,
+        T,
+        "findUniqueOrThrow",
+        GlobalOmitOptions
+      >
+    | Null,
+    Null,
+    ExtArgs,
+    GlobalOmitOptions
+  >;
   sentence<T extends Prisma.sentenceDefaultArgs<ExtArgs> = {}>(
     args?: Prisma.Subset<T, Prisma.sentenceDefaultArgs<ExtArgs>>,
   ): Prisma.Prisma__sentenceClient<
@@ -1374,6 +1629,7 @@ export interface wordFieldRefs {
   readonly definition: Prisma.FieldRef<"word", "String">;
   readonly language: Prisma.FieldRef<"word", "Language">;
   readonly is_bookmarked: Prisma.FieldRef<"word", "Boolean">;
+  readonly author_id: Prisma.FieldRef<"word", "Int">;
   readonly sentence_id: Prisma.FieldRef<"word", "Int">;
   readonly create_time: Prisma.FieldRef<"word", "DateTime">;
   readonly update_time: Prisma.FieldRef<"word", "DateTime">;

@@ -20,12 +20,27 @@ enum Language {
   LANGUAGE_JAPANESE
 }
 
+model user {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  email         String   @db.VarChar(255)
+  password      String   @db.VarChar(255)
+  create_time   DateTime @default(now())
+  update_time   DateTime @updatedAt
+
+  sentence_list sentence[]
+  word_list word[]
+}
+
 model sentence {
   id            Int      @id @default(autoincrement())
   text          String   @db.Text
-  definition    String   @db.Text
+  definition    String   @db.Text 
   language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
+  author_id       Int
+  author          user     @relation(fields: [author_id], references: [id])
+
   create_time   DateTime @default(now())
   update_time   DateTime @updatedAt
 
@@ -33,6 +48,7 @@ model sentence {
 
   @@index([text])
   @@index([is_bookmarked])
+  @@index([author_id])
 }
 
 model word {
@@ -41,6 +57,9 @@ model word {
   definition    String   @db.Text
   language      Language @default(LANGUAGE_JAPANESE)
   is_bookmarked Boolean  @default(false)
+  author_id       Int
+  author          user     @relation(fields: [author_id], references: [id])
+
   sentence_id   Int
   sentence      sentence @relation(fields: [sentence_id], references: [id])
   create_time   DateTime @default(now())
@@ -48,4 +67,5 @@ model word {
 
   @@index([text])
   @@index([is_bookmarked])
+  @@index([author_id])
 }

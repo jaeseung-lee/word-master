@@ -7,6 +7,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from "./models/user";
 export type * from "./models/sentence";
 export type * from "./models/word";
 export type * from "./commonInputTypes";
