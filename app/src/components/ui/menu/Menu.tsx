@@ -29,7 +29,7 @@ export default function Menu() {
 
   return (
     <React.Fragment>
-      <div className="sticky top-0 z-10 flex">
+      <div className="sticky top-0 z-10 flex border-b border-gray-04 bg-black">
         <div className="mx-auto flex h-14 w-full items-center justify-between px-[1em]">
           <Link href="/dashboard">
             <Image src={LogoImage} alt="logo" width={32} height={32} />
